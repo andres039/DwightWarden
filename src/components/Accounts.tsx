@@ -1,31 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  Box,
   Button,
-  Divider,
-  List,
-  Menu,
   Navbar,
   ScrollArea,
   Stack,
-  Tabs,
 } from "@mantine/core";
+import { useQuery } from "../../convex/_generated/react";
 
-const userAccounts = [
-  { name: "Gmail", id: 1 },
-  { name: "Outlook", id: 2 },
-  { name: "BankAccount", id: 3 },
-  { name: "YouTube", id: 4 },
-];
-
-const Accounts = ({ currentAccount, setCurrentAccount, userAccounts }) => {
+const Accounts = ({ setCurrentAccount }) => {
+  const accounts = useQuery("listAccounts") || [{name: '', username: '', password: '', id: '0', url: ''}];
   const setAccount = (id: string) => {
-
-    const selectedAccount = userAccounts.find(
-      (oneAccount) => id === oneAccount.id
-    );
-    setCurrentAccount(selectedAccount);
-  };
+    const selectedAccount = accounts.find(
+      (oneAccount) => id === oneAccount._id.toString()
+      );
+      setCurrentAccount(selectedAccount);
+    };
+useEffect(() => setCurrentAccount(accounts[0]), [accounts])
   return (
     <Navbar.Section
       grow
@@ -35,11 +25,11 @@ const Accounts = ({ currentAccount, setCurrentAccount, userAccounts }) => {
       style={{ padding: 18 }}
     >
       <Stack>
-        {userAccounts.map((account) => (
+        {accounts.map((account) => (
           <Button
             variant="subtle"
-            key={account.id}
-            onClick={() => setAccount(account.id)}
+            key={account.name}
+            onClick={() => setAccount(account._id.toString())}
           >
             {account.name}
           </Button>

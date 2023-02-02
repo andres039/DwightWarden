@@ -4,16 +4,13 @@ import { AppShell, Center, Divider, Navbar, Text } from "@mantine/core";
 import dwight from "../../public/7.svg";
 import Accounts from "@/components/Accounts";
 import AccountInfo from "@/components/AccountInfo";
-import { useEffect, useReducer, useState } from "react";
-import { initialState } from "@/components/reducer";
+import { useEffect, useState } from "react";
 import { useQuery } from "../../convex/_generated/react";
 
 export default function Home() {
-  // const [state, dispatch] = useReducer(reducer, initialState);
-  const [currentAccount, setCurrentAccount] = useState(initialState[0]);
-  const data = useQuery("listAccounts");
- console.log('data', data)
-
+  const data = useQuery("listAccounts") || [{name: '', username: '', password: '', id: '', url: ''}];
+  const [currentAccount, setCurrentAccount] = useState({name: '', username: '', password: '', id: '', url: ''});
+  useEffect(() => setCurrentAccount(data[0]), []);
   return (
     <>
       <Head>
@@ -33,24 +30,17 @@ export default function Home() {
                   src={dwight}
                   width={100}
                   height={100}
+                  priority
                 />
               </Center>
             </Navbar.Section>
             <Divider />
             <Text></Text>
             <Accounts
-              userAccounts={initialState}
-              currentAccount={currentAccount}
               setCurrentAccount={setCurrentAccount}
             />
           </Navbar>
         }
-        // header={
-        //   <Header height={60} p="xs">
-        //     {/* Header content */}
-        //     What is this
-        //   </Header>
-        // }
         styles={(theme) => ({
           main: {
             backgroundColor:
@@ -60,7 +50,7 @@ export default function Home() {
           },
         })}
       >
-        <AccountInfo currentAccount={data} />
+        <AccountInfo currentAccount={currentAccount} />
       </AppShell>
     </>
   );
