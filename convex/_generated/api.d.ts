@@ -10,6 +10,7 @@
  */
 
 import type { ApiFromModules } from "convex/api";
+import type * as addAccount from "../addAccount";
 import type * as listAccounts from "../listAccounts";
 
 /**
@@ -22,5 +23,6 @@ import type * as listAccounts from "../listAccounts";
  * `ConvexReactClient` to create app-specific types.
  */
 export type API = ApiFromModules<{
+  addAccount: typeof addAccount;
   listAccounts: typeof listAccounts;
 }>;

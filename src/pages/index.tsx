@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { AppShell, Center, Divider, Navbar, Text } from "@mantine/core";
+import { AppShell, Button, Center, Divider, Navbar } from "@mantine/core";
 import dwight from "../../public/7.svg";
 import Accounts from "@/components/Accounts";
 import AccountInfo from "@/components/AccountInfo";
@@ -8,8 +8,29 @@ import { useEffect, useState } from "react";
 import { useQuery } from "../../convex/_generated/react";
 
 export default function Home() {
-  const data = useQuery("listAccounts") || [{name: '', username: '', password: '', id: '', url: ''}];
-  const [currentAccount, setCurrentAccount] = useState({name: '', username: '', password: '', id: '', url: ''});
+  const [inputsDisabled, setInputsDisabled] = useState(true);
+
+  const data = useQuery("listAccounts") || [
+    { name: "", username: "", password: "", id: "", url: "" },
+  ];
+  const [currentAccount, setCurrentAccount] = useState({
+    name: "",
+    username: "",
+    password: "",
+    id: "",
+    url: "",
+  });
+  const createNewAccount = () => {
+    setCurrentAccount({
+      name: "",
+      username: "",
+      password: "",
+      id: "",
+      url: "",
+    });
+    setInputsDisabled(false);
+  };
+
   useEffect(() => setCurrentAccount(data[0]), []);
   return (
     <>
@@ -34,11 +55,17 @@ export default function Home() {
                 />
               </Center>
             </Navbar.Section>
-            <Divider />
-            <Text></Text>
-            <Accounts
-              setCurrentAccount={setCurrentAccount}
-            />
+            <Divider style={{ marginBottom: 10 }} />
+            <Center>
+              <Button
+                variant="gradient"
+                gradient={{ from: "teal", to: "lime", deg: 105 }}
+                onClick={createNewAccount}
+              >
+                Add account
+              </Button>
+            </Center>
+            <Accounts setCurrentAccount={setCurrentAccount} />
           </Navbar>
         }
         styles={(theme) => ({
@@ -50,7 +77,11 @@ export default function Home() {
           },
         })}
       >
-        <AccountInfo currentAccount={currentAccount} />
+        <AccountInfo
+          currentAccount={currentAccount}
+          inputsDisabled={inputsDisabled}
+          setInputsDisabled={setInputsDisabled}
+        />
       </AppShell>
     </>
   );
