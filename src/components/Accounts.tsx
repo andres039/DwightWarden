@@ -18,12 +18,29 @@ const userAccounts = [
   { name: "YouTube", id: 4 },
 ];
 
-const Accounts = () => {
+const Accounts = ({ currentAccount, setCurrentAccount, userAccounts }) => {
+  const setAccount = (id: string) => {
+
+    const selectedAccount = userAccounts.find(
+      (oneAccount) => id === oneAccount.id
+    );
+    setCurrentAccount(selectedAccount);
+  };
   return (
-    <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs" style={{padding: 18}}>
+    <Navbar.Section
+      grow
+      component={ScrollArea}
+      mx="-xs"
+      px="xs"
+      style={{ padding: 18 }}
+    >
       <Stack>
         {userAccounts.map((account) => (
-          <Button variant="subtle" key={account.id}>
+          <Button
+            variant="subtle"
+            key={account.id}
+            onClick={() => setAccount(account.id)}
+          >
             {account.name}
           </Button>
         ))}

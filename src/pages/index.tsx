@@ -3,10 +3,17 @@ import Image from "next/image";
 import { AppShell, Center, Divider, Navbar, Text } from "@mantine/core";
 import dwight from "../../public/7.svg";
 import Accounts from "@/components/Accounts";
-
-// const inter = Inter({ subsets: ["latin"] });
+import AccountInfo from "@/components/AccountInfo";
+import { useEffect, useReducer, useState } from "react";
+import { initialState } from "@/components/reducer";
+import { useQuery } from "../../convex/_generated/react";
 
 export default function Home() {
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  const [currentAccount, setCurrentAccount] = useState(initialState[0]);
+  const data = useQuery("listAccounts");
+ console.log('data', data)
+
   return (
     <>
       <Head>
@@ -18,9 +25,9 @@ export default function Home() {
       <AppShell
         padding="md"
         navbar={
-          <Navbar width={{ base: 250 }} height={"100%"} p="xs">
+          <Navbar width={{ base: 200 }} height={"100%"} p="xs">
             <Navbar.Section>
-              <Center style={{padding: 18}}>
+              <Center style={{ padding: 18 }}>
                 <Image
                   alt="picture of dwight shruttes face"
                   src={dwight}
@@ -30,7 +37,12 @@ export default function Home() {
               </Center>
             </Navbar.Section>
             <Divider />
-            <Accounts />
+            <Text></Text>
+            <Accounts
+              userAccounts={initialState}
+              currentAccount={currentAccount}
+              setCurrentAccount={setCurrentAccount}
+            />
           </Navbar>
         }
         // header={
@@ -48,7 +60,7 @@ export default function Home() {
           },
         })}
       >
-        {/* Your application here */}
+        <AccountInfo currentAccount={data} />
       </AppShell>
     </>
   );
