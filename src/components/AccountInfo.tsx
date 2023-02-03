@@ -14,6 +14,7 @@ import {
 import { useMutation, useQuery } from "../../convex/_generated/react";
 
 const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
+  const [currentAccountInfo, setCurrentAccountInfo] = useState(currentAccount);
   const accounts = useQuery("listAccounts") || [
     { name: "", username: "", password: "", id: "", url: "" },
   ];
@@ -22,10 +23,12 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
   const editAccountInfo = () => {
     if (!inputsDisabled) {
       const postNewAccount = addAccount(currentAccountInfo);
-
     }
   };
-  const [currentAccountInfo, setCurrentAccountInfo] = useState(currentAccount);
+  const cancel = () => {
+    setCurrentAccountInfo(currentAccount);
+    setInputsDisabled(true);
+  };
 
   return (
     <Center style={{ width: "100%", height: "75%" }}>
@@ -43,6 +46,11 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
               {" "}
               {inputsDisabled ? "Edit" : "Save changes"}{" "}
             </Button>
+            {!inputsDisabled && (
+              <Button variant="subtle" color="red" onClick={cancel}>
+                Cancel
+              </Button>
+            )}
           </Group>
           <Stack spacing="lg">
             <Group align="end">
