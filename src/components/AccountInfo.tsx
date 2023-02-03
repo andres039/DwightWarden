@@ -36,21 +36,23 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
         <Container>
           <Group position="apart" mt="md" mb="xs">
             <Text weight={800}>{currentAccount.name}</Text>
-            <Button
-              variant="subtle"
-              onClick={() => {
-                toggleInputs();
-                editAccountInfo();
-              }}
-            >
-              {" "}
-              {inputsDisabled ? "Edit" : "Save changes"}{" "}
-            </Button>
-            {!inputsDisabled && (
-              <Button variant="subtle" color="red" onClick={cancel}>
-                Cancel
+            <Group>
+              <Button
+                variant="subtle"
+                onClick={() => {
+                  toggleInputs();
+                  editAccountInfo();
+                }}
+              >
+                {" "}
+                {inputsDisabled ? "Edit" : "Save changes"}{" "}
               </Button>
-            )}
+              {!inputsDisabled && (
+                <Button variant="subtle" color="red" onClick={cancel}>
+                  Cancel
+                </Button>
+              )}
+            </Group>
           </Group>
           <Stack spacing="lg">
             <Group align="end">
@@ -64,7 +66,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 placeholder={currentAccount.name}
-                value={currentAccount.name}
+                value={currentAccountInfo.name}
                 style={{ minWidth: "85%" }}
               />
               <CopyButton value={currentAccount.username}>
@@ -86,7 +88,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 placeholder={currentAccount.username}
-                value={currentAccount.username}
+                value={currentAccountInfo.username}
                 style={{ minWidth: "85%" }}
               />
               <CopyButton value={currentAccountInfo.username}>
@@ -109,7 +111,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 style={{ minWidth: "85%" }}
-                value={currentAccount.password}
+                value={currentAccountInfo.password}
               ></TextInput>
               <CopyButton value={currentAccount.password}>
                 {({ copied, copy }) => (
@@ -131,7 +133,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 style={{ minWidth: "85%" }}
-                value={currentAccount.url}
+                value={currentAccountInfo.url}
               ></TextInput>
               <CopyButton value={currentAccount.url}>
                 {({ copied, copy }) => (
