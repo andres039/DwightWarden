@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   CopyButton,
+  CardSection,
 } from "@mantine/core";
 
 import { useMutation, useQuery } from "../../convex/_generated/react";
@@ -143,6 +144,11 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                 )}
               </CopyButton>
             </Group>
+            <Center>
+              <Button variant="subtle" color="red">
+                Delete Account
+              </Button>
+            </Center>
           </Stack>
         </Container>
       </Card>
