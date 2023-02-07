@@ -3,5 +3,10 @@
   "team": "andres039",
   "prodUrl": "https://quaint-walrus-678.convex.cloud",
   "functions": "convex/",
-  "authInfo": []
+  "authInfo": [
+    {
+      "domain": "https://dev-t3lbvgwgrkufcbog.us.auth0.com/",
+      "applicationID": "gL7qx3nQ7HFfzvL4gz0Ax9e8nSWI7W59"
+    }
+  ]
 }
