@@ -11,20 +11,17 @@ import {
   CopyButton,
 } from "@mantine/core";
 
-import { useMutation, useQuery } from "../../convex/_generated/react";
+import { useMutation } from "../../convex/_generated/react";
 
 const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
   const [currentAccountInfo, setCurrentAccountInfo] = useState(currentAccount);
-  const accounts = useQuery("listAccounts") || [
-    { name: "", username: "", password: "", id: "", url: "" },
-  ];
   const toggleInputs = () => setInputsDisabled(!inputsDisabled);
   const addAccount = useMutation("addAccount");
   const deleteAccount = useMutation("deleteAccount");
 
   const editAccountInfo = () => {
     if (!inputsDisabled) {
-      addAccount(currentAccountInfo);
+      const add = addAccount(currentAccountInfo);
     }
   };
   const cancel = () => {
