@@ -9,7 +9,6 @@ import {
   Text,
   TextInput,
   CopyButton,
-  CardSection,
 } from "@mantine/core";
 
 import { useMutation, useQuery } from "../../convex/_generated/react";
@@ -21,14 +20,19 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
   ];
   const toggleInputs = () => setInputsDisabled(!inputsDisabled);
   const addAccount = useMutation("addAccount");
+  const deleteAccount = useMutation("deleteAccount");
+
   const editAccountInfo = () => {
     if (!inputsDisabled) {
-      const postNewAccount = addAccount(currentAccountInfo);
+      addAccount(currentAccountInfo);
     }
   };
   const cancel = () => {
     setCurrentAccountInfo(currentAccount);
     setInputsDisabled(true);
+  };
+  const deleteAccountButton = () => {
+    deleteAccount(currentAccount._id);
   };
 
   return (
@@ -145,7 +149,11 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
               </CopyButton>
             </Group>
             <Center>
-              <Button variant="subtle" color="red">
+              <Button
+                variant="subtle"
+                color="red"
+                onClick={() => deleteAccountButton()}
+              >
                 Delete Account
               </Button>
             </Center>

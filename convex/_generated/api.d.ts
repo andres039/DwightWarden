@@ -11,6 +11,7 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as addAccount from "../addAccount";
+import type * as deleteAccount from "../deleteAccount";
 import type * as listAccounts from "../listAccounts";
 
 /**
@@ -24,5 +25,6 @@ import type * as listAccounts from "../listAccounts";
  */
 export type API = ApiFromModules<{
   addAccount: typeof addAccount;
+  deleteAccount: typeof deleteAccount;
   listAccounts: typeof listAccounts;
 }>;
