@@ -14,18 +14,26 @@ import {
 import { useMutation, useQuery } from "../../convex/_generated/react";
 
 const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
+  const [currentAccountInfo, setCurrentAccountInfo] = useState(currentAccount);
   const accounts = useQuery("listAccounts") || [
     { name: "", username: "", password: "", id: "", url: "" },
   ];
   const toggleInputs = () => setInputsDisabled(!inputsDisabled);
   const addAccount = useMutation("addAccount");
+  const deleteAccount = useMutation("deleteAccount");
+
   const editAccountInfo = () => {
     if (!inputsDisabled) {
-      const postNewAccount = addAccount(currentAccountInfo);
-
+      addAccount(currentAccountInfo);
     }
   };
-  const [currentAccountInfo, setCurrentAccountInfo] = useState(currentAccount);
+  const cancel = () => {
+    setCurrentAccountInfo(currentAccount);
+    setInputsDisabled(true);
+  };
+  const deleteAccountButton = () => {
+    deleteAccount(currentAccount._id);
+  };
 
   return (
     <Center style={{ width: "100%", height: "75%" }}>
@@ -33,16 +41,23 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
         <Container>
           <Group position="apart" mt="md" mb="xs">
             <Text weight={800}>{currentAccount.name}</Text>
-            <Button
-              variant="subtle"
-              onClick={() => {
-                toggleInputs();
-                editAccountInfo();
-              }}
-            >
-              {" "}
-              {inputsDisabled ? "Edit" : "Save changes"}{" "}
-            </Button>
+            <Group>
+              <Button
+                variant="subtle"
+                onClick={() => {
+                  toggleInputs();
+                  editAccountInfo();
+                }}
+              >
+                {" "}
+                {inputsDisabled ? "Edit" : "Save changes"}{" "}
+              </Button>
+              {!inputsDisabled && (
+                <Button variant="subtle" color="red" onClick={cancel}>
+                  Cancel
+                </Button>
+              )}
+            </Group>
           </Group>
           <Stack spacing="lg">
             <Group align="end">
@@ -56,7 +71,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 placeholder={currentAccount.name}
-                value={currentAccount.name}
+                value={currentAccountInfo.name}
                 style={{ minWidth: "85%" }}
               />
               <CopyButton value={currentAccount.username}>
@@ -78,7 +93,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 placeholder={currentAccount.username}
-                value={currentAccount.username}
+                value={currentAccountInfo.username}
                 style={{ minWidth: "85%" }}
               />
               <CopyButton value={currentAccountInfo.username}>
@@ -101,7 +116,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 style={{ minWidth: "85%" }}
-                value={currentAccount.password}
+                value={currentAccountInfo.password}
               ></TextInput>
               <CopyButton value={currentAccount.password}>
                 {({ copied, copy }) => (
@@ -123,7 +138,7 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                   })
                 }
                 style={{ minWidth: "85%" }}
-                value={currentAccount.url}
+                value={currentAccountInfo.url}
               ></TextInput>
               <CopyButton value={currentAccount.url}>
                 {({ copied, copy }) => (
@@ -133,6 +148,15 @@ const AccountInfo = ({ currentAccount, inputsDisabled, setInputsDisabled }) => {
                 )}
               </CopyButton>
             </Group>
+            <Center>
+              <Button
+                variant="subtle"
+                color="red"
+                onClick={() => deleteAccountButton()}
+              >
+                Delete Account
+              </Button>
+            </Center>
           </Stack>
         </Container>
       </Card>

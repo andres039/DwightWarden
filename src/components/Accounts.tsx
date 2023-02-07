@@ -28,7 +28,7 @@ useEffect(() => setCurrentAccount(accounts[0]), [accounts])
         {accounts.map((account) => (
           <Button
             variant="subtle"
-            key={account.name}
+            key={account._id}
             onClick={() => setAccount(account._id.toString())}
           >
             {account.name}
